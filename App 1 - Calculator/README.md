@@ -6,12 +6,8 @@ Follow commands in console.
 
 ## Possible options
 
-"+" to adding numbers
-
-"-" to subtracting numbers
-
-"*" to multiplying numbers
-
-"/" to dividing numbers
-
-"^" to exponentiate numbers
+- "+" to adding numbers
+- "-" to subtracting numbers
+- "*" to multiplying numbers
+- "/" to dividing numbers
+- "^" to exponentiate numbers
