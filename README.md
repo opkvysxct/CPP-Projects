@@ -6,8 +6,8 @@ This repository stores C++ Applications that i have created only for learning pu
 
 ### What apps can i find here?
 
-- Calculator
-- TODO
+- [Calculator](https://github.com/opkvysxct/CPP-Projects/tree/main/App%201%20-%20Calculator)
+- [Password Generator](https://github.com/opkvysxct/CPP-Projects/tree/main/App%202%20-%20Password_Generator)
 
 ### Should i use anything from this repository?
 

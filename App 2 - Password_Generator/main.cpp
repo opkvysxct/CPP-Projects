@@ -46,7 +46,7 @@ private:
 		57};
 	int asciiBig[2] = {
 		65,
-		132};
+		90};
 	int asciiSmall[2] = {
 		97,
 		122};
@@ -88,7 +88,7 @@ void PasswordGenerator::InitConfig() // Setting up config
 	{
 		if (option->second.realValue == true)
 		{
-			this->availableOptions.push_back(option->second.correspondingEnum);
+			this->availableOptions.insert(this->availableOptions.begin(), option->second.correspondingEnum);
 		}
 	}
 	this->CreatePassword();
@@ -97,47 +97,105 @@ void PasswordGenerator::InitConfig() // Setting up config
 void PasswordGenerator::CreatePassword() // Creating password
 {
 	std::cout << "Generating password" << std::endl;
-	std::uniform_int_distribution<int> distribution(0, this->availableOptions.size());
+	std::uniform_int_distribution<int> distribution(0, this->availableOptions.size() - 1);
 	std::string password = "";
 	for (int i = 0; i < this->passLength; i++)
 	{
 		int generatedNumber = distribution(this->randomGenerator);
-		
+		password += this->AddChar(static_cast<OptionEnum>(this->availableOptions[generatedNumber]));
+	}
+	std::cout << "Generated password is: " << password << std::endl;
+
+	char tryAgain;
+	std::cout << "Try Again? [Y/N] or change config [C] : ";
+	std::cin >> tryAgain;
+	if (std::cin.fail())
+	{
+		std::cout << "Invalid input" << std::endl;
+		return;
+	}
+	else if (tryAgain == 'C' || tryAgain == 'c')
+	{
+		this->InitConfig();
+	}
+	else if (tryAgain == 'Y' || tryAgain == 'y')
+	{
+		this->CreatePassword();
+	}
+	else
+	{
+		return;
 	}
 }
 
 char PasswordGenerator::AddChar(OptionEnum option)
 {
+	char toReturn;
 	switch (option)
 	{
 	case Special:
-
-		break;
-	default:
+	{
+		std::uniform_int_distribution<int> distribution(0, 7);
+		int generatedNumber = distribution(this->randomGenerator);
+		toReturn = asciiSpecial[generatedNumber];
 		break;
 	}
+	case Number:
+	{
+		std::uniform_int_distribution<int> distribution(asciiNums[0], asciiNums[1]);
+		int generatedNumber = distribution(this->randomGenerator);
+		toReturn = static_cast<char>(generatedNumber);
+		break;
+	}
+	case Big:
+	{
+		std::uniform_int_distribution<int> distribution(asciiBig[0], asciiBig[1]);
+		int generatedNumber = distribution(this->randomGenerator);
+		toReturn = static_cast<char>(generatedNumber);
+		break;
+	}
+	case Small:
+	{
+		std::uniform_int_distribution<int> distribution(asciiSmall[0], asciiSmall[1]);
+		int generatedNumber = distribution(this->randomGenerator);
+		toReturn = static_cast<char>(generatedNumber);
+		break;
+	}
+	default:
+	{
+		toReturn = ' ';
+		break;
+	}
+	}
+	return toReturn;
 }
 
 PasswordGenerator::PasswordGenerator()
 {
 	std::cout << "Password Generator Created" << std::endl;
 	randomGenerator.seed(time(0));
+
 	Option bigOption;
-	bigOption.displayText = "use big";
+	bigOption.displayText = "Use big";
 	bigOption.correspondingEnum = OptionEnum::Big;
+
 	Option smallOption;
-	smallOption.displayText = "use small";
-	bigOption.correspondingEnum = OptionEnum::Small;
+	smallOption.displayText = "Use small";
+	smallOption.correspondingEnum = OptionEnum::Small;
+
 	Option numberOption;
-	numberOption.displayText = "use number";
-	bigOption.correspondingEnum = OptionEnum::Number;
+	numberOption.displayText = "Use number";
+	numberOption.correspondingEnum = OptionEnum::Number;
+
 	Option specialOption;
-	specialOption.displayText = "use special";
-	bigOption.correspondingEnum = OptionEnum::Special;
+	specialOption.displayText = "Use special";
+	specialOption.correspondingEnum = OptionEnum::Special;
+
 	this->options["Big"] = bigOption;
 	this->options["Small"] = smallOption;
 	this->options["Number"] = numberOption;
 	this->options["Special"] = specialOption;
+
 	this->InitConfig();
 }
 
