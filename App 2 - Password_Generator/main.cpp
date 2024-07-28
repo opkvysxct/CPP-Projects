@@ -11,13 +11,13 @@ enum OptionEnum
 	Number,
 	Big,
 	Small,
-    Unset
+	Unset
 };
 
 struct Option
 {
 	bool realValue{};
-    char inputValue{};
+	char inputValue{};
 	std::string displayText;
 	OptionEnum correspondingEnum = OptionEnum::Unset;
 };
@@ -176,7 +176,7 @@ PasswordGenerator::PasswordGenerator()
 	std::cout << "Password Generator Created" << std::endl;
 	randomGenerator.seed(time(nullptr));
 
-    this->passLength = 5;
+	this->passLength = 5;
 
 	Option bigOption;
 	bigOption.displayText = "Use big";

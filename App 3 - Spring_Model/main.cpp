@@ -4,16 +4,16 @@
 class Spring
 {
 private:
-    double Speed = 1;
-    double Damping = 1;
-    double Constant = 1;
-    double Mass = 1;
+	double Speed = 1;
+	double Damping = 1;
+	double Constant = 1;
+	double Mass = 1;
 public:
-    double Velocity = 0;
-    double Target = 1;
-    double Position = 0;
+	double Velocity = 0;
+	double Target = 1;
+	double Position = 0;
 
-    double Update(double deltaTime) ;
+	double Update(double deltaTime) ;
 	void AddForce(double force);
 	Spring(double speed, double damping, double constant, double mass, double velocity, double target, double position);
 	~Spring();
@@ -21,10 +21,10 @@ public:
 
 double Spring::Update(double deltaTime)
 {
-    double acceleration = (((-this->Damping * this->Velocity - this->Constant * (this->Position - this->Target)) / this->Mass) * this->Speed) * deltaTime;
-    this->Velocity += acceleration;
-    this->Position += this->Velocity;
-    return this->Position;
+	double acceleration = (((-this->Damping * this->Velocity - this->Constant * (this->Position - this->Target)) / this->Mass) * this->Speed) * deltaTime;
+	this->Velocity += acceleration;
+	this->Position += this->Velocity;
+	return this->Position;
 }
 
 void Spring::AddForce(double force)
@@ -35,13 +35,13 @@ void Spring::AddForce(double force)
 Spring::Spring(double speed, double damping, double constant, double mass, double velocity, double target, double position)
 {
 	std::cout << "Spring Created" << std::endl;
-    this->Speed = speed;
+	this->Speed = speed;
 	this->Damping = damping;
 	this->Constant = constant;
 	this->Mass = mass;
-    this->Velocity = velocity;
-    this->Target = target;
-    this->Position = position;
+	this->Velocity = velocity;
+	this->Target = target;
+	this->Position = position;
 }
 
 Spring::~Spring()
