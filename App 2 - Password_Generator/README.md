@@ -15,7 +15,7 @@ Follow commands in console.
 
 ## Possible options
 
-- Lenth of password
+- Length of password
 - Use of big letters
 - Use of small letters
 - Use of numbers

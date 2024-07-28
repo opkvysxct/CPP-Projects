@@ -5,9 +5,9 @@
 class Calculator
 {
 private:
-	double actualValue;
+	double actualValue{};
 	void Init();
-	double Calculate(char option, double first, double second);
+	static double Calculate(char option, double first, double second);
 
 public:
 	Calculator();
@@ -58,7 +58,7 @@ void Calculator::Init()
 			std::cout << "Invalid input" << std::endl;
 			break;
 		}
-		double result = this->Calculate(selectedOption, this->actualValue, secondNumber);
+		double result = Calculator::Calculate(selectedOption, this->actualValue, secondNumber);
 		std::cout << "Result: " << result << std::endl;
 		this->actualValue = result;
 	}

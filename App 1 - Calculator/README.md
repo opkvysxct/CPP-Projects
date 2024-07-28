@@ -10,4 +10,4 @@ Follow commands in console.
 - "-" to subtracting numbers
 - "*" to multiplying numbers
 - "/" to dividing numbers
-- "^" to exponentiate numbers
+- "^" to exponential numbers

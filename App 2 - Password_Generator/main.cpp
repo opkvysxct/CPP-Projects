@@ -10,15 +10,16 @@ enum OptionEnum
 	Special,
 	Number,
 	Big,
-	Small
+	Small,
+    Unset
 };
 
 struct Option
 {
-	bool realValue;
+	bool realValue{};
+    char inputValue{};
 	std::string displayText;
-	char inputValue;
-	OptionEnum correspondingEnum;
+	OptionEnum correspondingEnum = OptionEnum::Unset;
 };
 
 class PasswordGenerator
@@ -66,29 +67,29 @@ void PasswordGenerator::InitConfig() // Setting up config
 		return;
 	}
 
-	for (auto option = this->options.begin(); option != this->options.end(); ++option)
+	for (auto & option : this->options)
 	{
-		std::cout << option->first << " characters? [Y/N] : ";
-		std::cin >> option->second.inputValue;
+		std::cout << option.first << " characters? [Y/N] : ";
+		std::cin >> option.second.inputValue;
 		if (std::cin.fail())
 		{
 			std::cout << "Invalid input" << std::endl;
 			return;
 		}
-		else if (option->second.inputValue == 'Y' || option->second.inputValue == 'y')
+		else if (option.second.inputValue == 'Y' || option.second.inputValue == 'y')
 		{
-			option->second.realValue = true;
+			option.second.realValue = true;
 		}
 		else
 		{
-			option->second.realValue = false;
+			option.second.realValue = false;
 		}
 	}
-	for (auto option = this->options.begin(); option != this->options.end(); ++option)
+	for (auto & option : this->options)
 	{
-		if (option->second.realValue == true)
+		if (option.second.realValue)
 		{
-			this->availableOptions.insert(this->availableOptions.begin(), option->second.correspondingEnum);
+			this->availableOptions.insert(this->availableOptions.begin(), option.second.correspondingEnum);
 		}
 	}
 	this->CreatePassword();
@@ -97,8 +98,8 @@ void PasswordGenerator::InitConfig() // Setting up config
 void PasswordGenerator::CreatePassword() // Creating password
 {
 	std::cout << "Generating password" << std::endl;
-	std::uniform_int_distribution<int> distribution(0, this->availableOptions.size() - 1);
-	std::string password = "";
+	std::uniform_int_distribution<int> distribution(0, (int)this->availableOptions.size() - 1);
+	std::string password;
 	for (int i = 0; i < this->passLength; i++)
 	{
 		int generatedNumber = distribution(this->randomGenerator);
@@ -137,7 +138,7 @@ char PasswordGenerator::AddChar(OptionEnum option)
 	{
 		std::uniform_int_distribution<int> distribution(0, 7);
 		int generatedNumber = distribution(this->randomGenerator);
-		toReturn = asciiSpecial[generatedNumber];
+		toReturn = (char)asciiSpecial[generatedNumber];
 		break;
 	}
 	case Number:
@@ -173,7 +174,9 @@ char PasswordGenerator::AddChar(OptionEnum option)
 PasswordGenerator::PasswordGenerator()
 {
 	std::cout << "Password Generator Created" << std::endl;
-	randomGenerator.seed(time(0));
+	randomGenerator.seed(time(nullptr));
+
+    this->passLength = 5;
 
 	Option bigOption;
 	bigOption.displayText = "Use big";
